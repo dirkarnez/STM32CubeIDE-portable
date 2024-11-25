@@ -22,24 +22,24 @@ jobs:
       - name: installer
         shell: cmd
         run: |
-          cd ${{ env.targetZip }} &&^
+          cd ${{ env.version }} &&^
           7z x st-stm32cubeide_1.16.1_22882_20240916_0822_x86_64.zip.001 -y &&^
           7z x st-stm32cubeide_1.16.1_22882_20240916_0822_x86_64.exe -y &&^
           dir
           
       - shell: cmd
-        run: xcopy /H /Y /C "stm32cubeide.exe.Portable.cmd" "${{ env.targetZip }}\STM32CubeIDE"
+        run: xcopy /H /Y /C "stm32cubeide.exe.Portable.cmd" "${{ env.version }}\STM32CubeIDE"
           
       - name: Archive Release
         uses: thedoctor0/zip-release@master
         with:
           type: 'zip'
-          directory: "${{ env.targetZip }}/STM32CubeIDE"
+          directory: "${{ env.version }}/STM32CubeIDE"
           filename: "${{ env.targetZip }}"
           
       - name: Release prebuilt
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "${{ env.targetZip }}/STM32CubeIDE/${{ env.targetZip }}"
+          artifacts: "${{ env.version }}/STM32CubeIDE/${{ env.targetZip }}"
           allowUpdates: true
           token: ${{ secrets.GITHUB_TOKEN }}
