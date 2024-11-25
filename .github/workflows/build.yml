@@ -19,9 +19,9 @@ jobs:
       - uses: actions/checkout@v4
       
       - name: installer
-        shell: bash
+        shell: cmd
         run: |
-          C:\msys64\usr\bin\wget.exe -O installer.zip 'https://www.st.com/content/ccc/resource/technical/software/sw_development_suite/group1/d4/73/26/34/82/38/49/e9/stm32cubeide-win/files/st-stm32cubeide_1.16.1_22882_20240916_0822_x86_64.exe.zip/jcr:content/translations/en.st-stm32cubeide_1.16.1_22882_20240916_0822_x86_64.exe.zip'
+          C:\msys64\usr\bin\wget.exe -O installer.zip "https://www.st.com/content/ccc/resource/technical/software/sw_development_suite/group1/d4/73/26/34/82/38/49/e9/stm32cubeide-win/files/st-stm32cubeide_1.16.1_22882_20240916_0822_x86_64.exe.zip/jcr:content/translations/en.st-stm32cubeide_1.16.1_22882_20240916_0822_x86_64.exe.zip"
 
       - name: installer
         shell: cmd
