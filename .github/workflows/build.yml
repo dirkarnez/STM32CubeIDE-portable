@@ -15,35 +15,31 @@ jobs:
     runs-on: windows-latest
     env:
       targetZip: STM32CubeIDE-portable-${{ github.ref_name }}.zip
+      version: v1.6.1
     steps:
       - uses: actions/checkout@v4
       
       - name: installer
         shell: cmd
         run: |
-          C:\msys64\usr\bin\wget.exe -O installer.zip "https://www.st.com/content/ccc/resource/technical/software/sw_development_suite/group1/d4/73/26/34/82/38/49/e9/stm32cubeide-win/files/st-stm32cubeide_1.16.1_22882_20240916_0822_x86_64.exe.zip/jcr:content/translations/en.st-stm32cubeide_1.16.1_22882_20240916_0822_x86_64.exe.zip"
-
-      - name: installer
-        shell: cmd
-        run: |
-          7z x installer.zip -o"installation" -y &&^
-          cd installation &&^
+          cd ${{ env.targetZip }} &&^
+          7z x st-stm32cubeide_1.16.1_22882_20240916_0822_x86_64.zip.001 -y &&^
           7z x st-stm32cubeide_1.16.1_22882_20240916_0822_x86_64.exe -y &&^
           dir
           
       - shell: cmd
-        run: xcopy /H /Y /C "stm32cubeide.exe.Portable.cmd" "installation\STM32CubeIDE"
+        run: xcopy /H /Y /C "stm32cubeide.exe.Portable.cmd" "${{ env.targetZip }}\STM32CubeIDE"
           
       - name: Archive Release
         uses: thedoctor0/zip-release@master
         with:
           type: 'zip'
-          directory: "installation/STM32CubeIDE"
+          directory: "${{ env.targetZip }}/STM32CubeIDE"
           filename: "${{ env.targetZip }}"
           
       - name: Release prebuilt
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "installation/STM32CubeIDE/${{ env.targetZip }}"
+          artifacts: "${{ env.targetZip }}/STM32CubeIDE/${{ env.targetZip }}"
           allowUpdates: true
           token: ${{ secrets.GITHUB_TOKEN }}
