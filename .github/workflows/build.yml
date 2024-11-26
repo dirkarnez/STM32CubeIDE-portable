@@ -29,17 +29,23 @@ jobs:
           
       - shell: cmd
         run: xcopy /H /Y /C "stm32cubeide.exe.Portable.cmd" "${{ env.version }}\STM32CubeIDE"
+
+      - shell: cmd
+        run: |
+          cd ${{ env.version }}\STM32CubeIDE &&^
+          7z a -tzip -v100m ${{ env.targetZip }} . &&^
+          dir
           
-      - name: Archive Release
-        uses: thedoctor0/zip-release@master
-        with:
-          type: 'zip'
-          directory: "${{ env.version }}/STM32CubeIDE"
-          filename: "${{ env.targetZip }}"
+      # - name: Archive Release
+      #   uses: thedoctor0/zip-release@master
+      #   with:
+      #     type: 'zip'
+      #     directory: "${{ env.version }}/STM32CubeIDE"
+      #     filename: "${{ env.targetZip }}"
           
       - name: Release prebuilt
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "${{ env.version }}/STM32CubeIDE/${{ env.targetZip }}"
+          artifacts: "${{ env.version }}/STM32CubeIDE/${{ env.targetZip }}*"
           allowUpdates: true
           token: ${{ secrets.GITHUB_TOKEN }}
